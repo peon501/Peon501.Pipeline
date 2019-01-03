@@ -1,0 +1,14 @@
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/bin/Debug/Peon501.Pipeline.dll
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/bin/Debug/Peon501.Pipeline.pdb
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/bin/Debug/MonoGame.Framework.Content.Pipeline.dll
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/bin/Debug/MonoGame.Framework.dll
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/bin/Debug/Newtonsoft.Json.dll
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/bin/Debug/MonoGame.Framework.xml
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/bin/Debug/MonoGame.Framework.Content.Pipeline.xml
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/bin/Debug/Newtonsoft.Json.xml
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/obj/Debug/Peon501.Pipeline.csprojAssemblyReference.cache
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/obj/Debug/Peon501.Pipeline.csproj.CoreCompileInputs.cache
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/obj/Debug/Peon501.Pipeline.csproj.CopyComplete
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/obj/Debug/Peon501.Pipeline.dll
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/obj/Debug/Peon501.Pipeline.pdb
+/home/matas/Desktop/InfinitespaceStudios.Pipeline-master/Peon501.Pipeline/bin/Debug/Newtonsoft.Json.pdb
