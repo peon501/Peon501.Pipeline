@@ -10,7 +10,7 @@ https://wiki.winehq.org/Download
 http://www.monogame.net/downloads/
 
 3.download d3dcompiler_47.dll from google and place it to  
-"/.wine/drive_c/Program Files (x86)/MSBuild/MonoGame/v3.0/Tools/" dir
+"/.wine/drive_c/Program Files (x86)/MSBuild/MonoGame/v3.0/Tools/" dir (if you can't see dir press ctrl + h to show hidden files)
 
 4.Open content pipeline, add plugin dll files
 
