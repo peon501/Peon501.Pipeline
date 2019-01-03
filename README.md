@@ -15,3 +15,4 @@ http://www.monogame.net/downloads/
 4.Open content pipeline, add plugin dll files
 
 5.Use it :)
+![Pipeline window](https://i.ibb.co/KjS1rjs/Screenshot-from-2019-01-03-21-04-59.png)
