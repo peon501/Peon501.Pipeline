@@ -120,73 +120,75 @@ namespace Peon501.Pipeline.Processors
 	{
 		public static byte[] RunMGCB(string code,  string platform, string winePath, string compilerPath, out string error)
 		{
-			try
+
+			string[] platforms = new string[]
 			{
-				string[] platforms = new string[]
-				{
-					"DesktopGL",
-					"Android",
-					"iOS",
-					"tvOS",
-					"OUYA",
-				};
-				var profile = platforms.Contains(platform) ? "OpenGL" : "DirectX_11";
-				var tempPath = Path.GetFileName( Path.ChangeExtension(Path.GetTempFileName (), ".fx"));
-				var xnb = Path.ChangeExtension (tempPath, ".mgfx");
-				var tempOutput = Path.GetTempPath ();
-				File.WriteAllText(Path.Combine(tempOutput, tempPath), code);
-				
-				error = String.Empty;
+				"DesktopGL",
+				"Android",
+				"iOS",
+				"tvOS",
+				"OUYA",
+			};
+			var profile = platforms.Contains(platform) ? "OpenGL" : "DirectX_11";
+			var tempPath = Path.GetFileName( Path.ChangeExtension(Path.GetTempFileName (), ".fx"));
+			var xnb = Path.ChangeExtension (tempPath, ".mgfx");
+			var tempOutput = Path.GetTempPath ();
+			File.WriteAllText(Path.Combine(tempOutput, tempPath), code);
+			
+			error = String.Empty;
 
-				string homeDir = Environment.GetEnvironmentVariable("HOME");
-				string programPath = $"{homeDir}{compilerPath}";
-				string effectDir = $"/tmp/{tempPath}";
-				string mgfxDir = $"/tmp/{xnb}";
+			string homeDir = Environment.GetEnvironmentVariable("HOME");
+			string programPath = $"{homeDir}{compilerPath}";
+			string effectDir = $"/tmp/{tempPath}";
+			string mgfxDir = $"/tmp/{xnb}";
 
-				effectDir = effectDir.Replace("/", "\\");
-				mgfxDir = mgfxDir.Replace("/", "\\");
+			effectDir = effectDir.Replace("/", "\\");
+			mgfxDir = mgfxDir.Replace("/", "\\");
 
-				string parameters = string.Format("{0} \"{1}\" \"{2}\" \"{3}\" /Profile:{4}", winePath, programPath, effectDir, mgfxDir, profile);
+			string parameters = string.Format("{0} \"{1}\" \"{2}\" \"{3}\" /Profile:{4}", winePath, programPath, effectDir, mgfxDir, profile);
 
-				parameters = parameters.Replace("\"", "\'");
-				Process proc = new Process();
-				proc.StartInfo.FileName = "/bin/bash";
-				proc.StartInfo.Arguments = string.Format("-c \"{0}\"", parameters);
-				proc.StartInfo.UseShellExecute = false;
-				proc.StartInfo.RedirectStandardOutput = true;
-				proc.StartInfo.RedirectStandardInput = true;
-				proc.StartInfo.RedirectStandardError = true;
+			parameters = parameters.Replace("\"", "\'");
+			Process proc = new Process();
+			proc.StartInfo.FileName = "/bin/bash";
+			proc.StartInfo.Arguments = string.Format("-c \"{0}\"", parameters);
+			proc.StartInfo.UseShellExecute = false;
+			proc.StartInfo.RedirectStandardOutput = true;
+			proc.StartInfo.RedirectStandardInput = true;
+			proc.StartInfo.RedirectStandardError = true;
 
-				var stdoutCompleted = new ManualResetEvent(false);
-
-				proc.Start();
-				while (proc.StandardOutput.EndOfStream)
-				{
-					stdoutCompleted.Set();
-				}
-				try {
-					proc.WaitForExit ();
-					if (File.Exists (Path.Combine (tempOutput, xnb))) {
-						return File.ReadAllBytes (Path.Combine(tempOutput, xnb));
-					}
-				} catch (Exception ex) {
-					error = ex.ToString ();
-					Console.WriteLine (ex.ToString ());
-				}
-				finally {
-					File.Delete (Path.Combine(tempOutput, tempPath));
-					File.Delete (Path.Combine(tempOutput, xnb));
-				}
-				if (proc.ExitCode != 0)
-				{
-					throw new InvalidContentException();
-				}
-				return new byte[0];
+			var stdoutCompleted = new ManualResetEvent(false);
+			proc.Start();
+			
+			var response = new System.Text.StringBuilder();
+			while (!proc.StandardOutput.EndOfStream){
+				response.AppendLine(proc.StandardOutput.ReadLine());
 			}
-			catch(Exception ex)
+			if (response.ToString().Contains("Compiled")){
+				stdoutCompleted.Set();
+			}else{
+				error = proc.StandardError.ReadLine();
+				throw new Exception (error);
+			}
+
+			try {
+				proc.WaitForExit ();
+				if (File.Exists (Path.Combine (tempOutput, xnb))) {
+					return File.ReadAllBytes (Path.Combine(tempOutput, xnb));
+				}
+			} catch (Exception ex) {
+				error = ex.ToString ();
+				throw new Exception (error);
+			}
+			finally {
+				File.Delete (Path.Combine(tempOutput, tempPath));
+				File.Delete (Path.Combine(tempOutput, xnb));
+			}
+			if (proc.ExitCode != 0)
 			{
-				throw new Exception ("PEON501: You got error :)--->" + ex.Message);
+				throw new InvalidContentException();
 			}
+			return new byte[0];
+
 		}
 	}
 }
