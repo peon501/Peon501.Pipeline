@@ -158,13 +158,18 @@ namespace Peon501.Pipeline.Processors
 			proc.Start();
 			
 			var response = new System.Text.StringBuilder();
+			var responseErr = new System.Text.StringBuilder();
 			while (!proc.StandardOutput.EndOfStream){
 				response.AppendLine(proc.StandardOutput.ReadLine());
+			}
+			while (!proc.StandardError.EndOfStream)
+			{
+				responseErr.AppendLine(proc.StandardError.ReadLine());
 			}
 			if (response.ToString().Contains("Compiled")){
 				stdoutCompleted.Set();
 			}else{
-				error = proc.StandardError.ReadLine();
+				error = responseErr.ToString();
 				throw new Exception (error);
 			}
 
